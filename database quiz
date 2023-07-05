@@ -1,0 +1,73 @@
+ -- database quiz
+create database quiz;
+use quiz;
+ -- creating table
+CREATE TABLE questions (
+    id INT(11) AUTO_INCREMENT,
+    question VARCHAR(255) NOT NULL,
+    option1 VARCHAR(300) NOT NULL,
+    option2 VARCHAR(300) NOT NULL,
+    option3 VARCHAR(300) NOT NULL,
+    option4 VARCHAR(350) NOT NULL,
+    answer INT NOT NULL,
+    PRIMARY KEY(id)
+);
+ -- drop table questions;
+  -- insert values
+INSERT INTO questions (question,option1,option2,option3,option4,answer) VALUES
+("who is the present prime minister of India?","Mahatma Gandhi","Jawaharlal Nehru","Narendra Modi","Indira Priyadarshini Gandhi",3),
+("Which is the nearest planet to sun?","Mercury","Earth","Saturn","Jupiter",1),
+("Who wrote Thirukural?","Naladiar","Thiruvalluvar","Kambar","Bharathi",2),
+("Who is the Governer of Tamilnadu?","Rosiya","C.Vidyasagar Rao","R.N.Ravi","Sabeena",3),
+("Which day is the National Science day?","May 23","April 23","Jan 28","Feb 28",4);
+ -- show table
+select * from questions;
+python connectivity
+import mysql.connector
+mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="quiz"
+)
+cursor=mydb.cursor()
+#display question
+def display_questions(cursor):
+    query=("select * from questions")
+    cursor.execute(query)
+    questions=cursor.fetchall()
+    for question in questions:
+        print("Questions:",question[1])
+        print("Options:")
+        print("1.",question[2])
+        print("2.",question[3])
+        print("3.",question[4])
+        print("4.",question[5])
+        print()
+#calculate score
+def take_quiz(cursor):
+    score=0
+    query=("select * from questions")
+    cursor.execute(query)
+    questions=cursor.fetchall()
+    for question in questions:
+        print("Questions:",question[1])
+        print("Options:")
+        print("1.",question[2])
+        print("2.",question[3])
+        print("3.",question[4])
+        print("4.",question[5])
+        print()
+        print("Enter your answer(1-4):")
+        user_ans=int(input())
+    #calculate score
+        if user_ans==question[6]:
+            score+=1
+    return score
+print("Questions:")
+display_questions(cursor)
+print("answers:")
+#display answer
+Total_score=take_quiz(cursor)
+print("Your Total score is",Total_score)
+print("Quiz end")
